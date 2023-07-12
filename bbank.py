@@ -6,7 +6,7 @@ class Bank:
     
     def withdraw(self, w):
         if w > self.balance:
-            raise ('Withdrawal is greater than balance')
+            raise ValueError('Withdrawal is greater than balance')
         else:
             self.balance -= w
 
