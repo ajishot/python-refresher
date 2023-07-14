@@ -93,4 +93,6 @@ def calculate_moment_of_inertia(m, r):
 # volume is the volume of the AUV in cubic meters. The default value is 0.1m^3.
 # thruster_distance is the distance from the center of mass of the AUV to the thruster in meters. The default value is 0.5m.
 def calculate_auv_acceleration(F_magnitude, F_angle, mass=100, volume=0.1 thruster_distance=0.5):
-    
+    acceleration = np.array([calculate_acceleration(F_magnitude * np.cos(F_angle), mass), calculate_acceleration(F_magnitude * np.sin(F_angle), mass)])
+    return acceleration
+
