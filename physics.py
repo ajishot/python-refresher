@@ -70,7 +70,7 @@ def calculate_torque(F_magnitude, F_direction, r):
         raise ValueError(
             "The magnitude of the force applied and radius has to be greater than or equal to zero."
         )
-    return r * F_magnitude * np.sin(np.degrees(F_direction))
+    return r * F_magnitude * np.sin(np.radians(F_direction))
 
 
 # Problem 7
