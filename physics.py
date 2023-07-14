@@ -132,10 +132,22 @@ def calculate_auv2_acceleration(T, alpha, mass=100):
 # calculates the angular acceleration of the AUV.
 # T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons.
 # alpha is the angle of the thrusters in radians.
+# L is the distance from the center of mass of the AUV to the thrusters in meters.
 # l is the distance from the center of mass of the AUV to the thrusters in meters.
 # inertia is the moment of inertia of the AUV in kg m^2. The default value is 100kg m^2
-def calculate_auv2_angular_accelration(T, alpha, l, inertia = 100):
+def calculate_auv2_angular_accelration(T, alpha, L, l, inertia = 100):
     if not isinstance(T, np.ndarray):
         raise TypeError('T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons.')
+    radius = np.sqrt(np.power(L, 2), np.power(l, 2))
+    beta = np.arctan(l / L)
+    np.reshape(T, 4)
+    directions = np.array([[1],
+                           [-1],
+                           [1],
+                           [-1]])
     
-    
+    torque = radius * np.sin(alpha + beta) * T @ directions 
+
+    return torque / inertia
+
+
