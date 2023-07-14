@@ -83,3 +83,14 @@ def calculate_moment_of_inertia(m, r):
             "The mass of the object must be greater than zero and the radius has to be greater than or equal to zero."
         )
     return m * np.power(r, 2)
+
+
+# Problem 8
+# calculates the acceleration of the AUV in the 2D plane.
+# F_magnitude is the magnitude of force applied by the thruster in Newtons.
+# F_angle is the angle of the force applied by the thruster in radians.
+# mass is the mass of the AUV in kilograms. The default value is 100kg.
+# volume is the volume of the AUV in cubic meters. The default value is 0.1m^3.
+# thruster_distance is the distance from the center of mass of the AUV to the thruster in meters. The default value is 0.5m.
+def calculate_auv_acceleration(F_magnitude, F_angle, mass=100, volume=0.1 thruster_distance=0.5):
+    
