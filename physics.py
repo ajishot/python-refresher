@@ -129,7 +129,7 @@ def calculate_auv2_acceleration(T, alpha, mass=100):
             "T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons."
         )
     if T.size != 4:
-        raise ValueError("T must have 4 values")
+        raise ValueError("T must have 4 values.")
     if mass <= 0:
         raise ValueError("Mass must be greater than zero.")
 
@@ -164,9 +164,11 @@ def calculate_auv2_angular_accelration(T, alpha, L, l, inertia=100):
         raise TypeError(
             "T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons."
         )
+    if T.size != 4:
+        raise ValueError("T must have 4 values.")
     if L <= 0 or l <= 0 or inertia <= 0:
         raise ValueError("Invalid input.")
-    radius = np.sqrt(np.power(L, 2), np.power(l, 2))
+    radius = np.sqrt(np.power(L, 2) + np.power(l, 2))
     beta = np.arctan(l / L)
     np.reshape(T, 4)
     directions = np.array([[1], [-1], [1], [-1]])
