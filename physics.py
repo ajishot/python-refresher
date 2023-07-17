@@ -92,7 +92,9 @@ def calculate_moment_of_inertia(m, r):
 # mass is the mass of the AUV in kilograms. The default value is 100kg.
 # volume is the volume of the AUV in cubic meters. The default value is 0.1m^3.
 # thruster_distance is the distance from the center of mass of the AUV to the thruster in meters. The default value is 0.5m.
-def calculate_auv_acceleration(F_magnitude, F_angle, mass=100, volume=0.1, thruster_distance=0.5):
+def calculate_auv_acceleration(
+    F_magnitude, F_angle, mass=100, volume=0.1, thruster_distance=0.5
+):
     if F_magnitude < 0 or mass <= 0 or volume <= 0 or thruster_distance < 0:
         raise ValueError("Invalid input.")
     x_acceleration = calculate_acceleration(F_magnitude * np.cos(F_angle), mass)
@@ -107,11 +109,14 @@ def calculate_auv_acceleration(F_magnitude, F_angle, mass=100, volume=0.1, thrus
 # F_angle is the angle of the force applied by the thruster in radians.
 # inertia is the moment of inertia of the AUV in kg m^2. The default value is 1kg m^2.
 # thruster_distance is the distance from the center of mass of the AUV to the thruster in meters. The default value is 0.5m.
-def calculate_auv_angular_acceleration(F_magnitude, F_angle, inertia=1, thruster_distance=0.5):
+def calculate_auv_angular_acceleration(
+    F_magnitude, F_angle, inertia=1, thruster_distance=0.5
+):
     if F_magnitude < 0 or inertia <= 0 or thruster_distance < 0:
         raise ValueError("Invalid input.")
     torque = thruster_distance * F_magnitude * np.sin(F_angle)
     return calculate_angular_acceleration(torque, inertia)
+
 
 # Problem 9-1
 # calculates the acceleration of the AUV in the 2D plane.
@@ -120,19 +125,32 @@ def calculate_auv_angular_acceleration(F_magnitude, F_angle, inertia=1, thruster
 # mass is the mass of the AUV in kilograms. The default value is 100kg.
 def calculate_auv2_acceleration(T, alpha, mass=100):
     if not isinstance(T, np.ndarray):
-        raise TypeError('T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons.')
+        raise TypeError(
+            "T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons."
+        )
+    if T.size != 4:
+        raise ValueError("T must have 4 values")
     if mass <= 0:
         raise ValueError("Mass must be greater than zero.")
-    
-    force_robot = np.array([[np.cos(alpha), np.cos(alpha), -np.cos(alpha), -np.cos(alpha)],
-                            [np.sin(alpha), -np.sin(alpha), -np.sin(alpha), np.sin(alpha)]]) @ T
-    rotation_matrix = np.array([[np.cos(alpha), np.sin(alpha)],
-                                [-np.sin(alpha), np.cos(alpha)]])
+
+    force_robot = (
+        np.array(
+            [
+                [np.cos(alpha), np.cos(alpha), -np.cos(alpha), -np.cos(alpha)],
+                [np.sin(alpha), -np.sin(alpha), -np.sin(alpha), np.sin(alpha)],
+            ]
+        )
+        @ T
+    )
+    rotation_matrix = np.array(
+        [[np.cos(alpha), np.sin(alpha)], [-np.sin(alpha), np.cos(alpha)]]
+    )
     force_universal = rotation_matrix @ force_robot
 
     acceleration_universal = force_universal / mass
 
     return acceleration_universal
+
 
 # Problem 9-2
 # calculates the angular acceleration of the AUV.
@@ -141,21 +159,18 @@ def calculate_auv2_acceleration(T, alpha, mass=100):
 # L is the distance from the center of mass of the AUV to the thrusters in meters.
 # l is the distance from the center of mass of the AUV to the thrusters in meters.
 # inertia is the moment of inertia of the AUV in kg m^2. The default value is 100kg m^2
-def calculate_auv2_angular_accelration(T, alpha, L, l, inertia = 100):
+def calculate_auv2_angular_accelration(T, alpha, L, l, inertia=100):
     if not isinstance(T, np.ndarray):
-        raise TypeError('T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons.')
+        raise TypeError(
+            "T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons."
+        )
     if L <= 0 or l <= 0 or inertia <= 0:
         raise ValueError("Invalid input.")
     radius = np.sqrt(np.power(L, 2), np.power(l, 2))
     beta = np.arctan(l / L)
     np.reshape(T, 4)
-    directions = np.array([[1],
-                           [-1],
-                           [1],
-                           [-1]])
-    
-    torque = radius * np.sin(alpha + beta) * T @ directions 
+    directions = np.array([[1], [-1], [1], [-1]])
+
+    torque = radius * np.sin(alpha + beta) * T @ directions
 
     return torque / inertia
-
-
