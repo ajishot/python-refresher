@@ -211,8 +211,8 @@ def simulate_auv2_motion(
         y[i] = y[i - 1] + v_y[i - 1] * dt
         theta[i] = theta[i - 1] + omega[i] * dt
 
-    v = np.arr(zip(v_x, v_y))
-    a = np.arr(zip(a_x, a_y))
+    v = np.array(zip(v_x, v_y))
+    a = np.array(zip(a_x, a_y))
 
     return t, x, y, theta, v, omega, a
 
