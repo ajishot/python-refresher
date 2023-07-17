@@ -158,6 +158,7 @@ def calculate_auv2_acceleration(T, alpha, mass=100):
 # alpha is the angle of the thrusters in radians.
 # L is the distance from the center of mass of the AUV to the thrusters in meters.
 # l is the distance from the center of mass of the AUV to the thrusters in meters.
+# L is horizontal and l is vertical
 # inertia is the moment of inertia of the AUV in kg m^2. The default value is 100kg m^2
 def calculate_auv2_angular_acceleration(T, alpha, L, l, inertia=100):
     if not isinstance(T, np.ndarray):
@@ -175,4 +176,4 @@ def calculate_auv2_angular_acceleration(T, alpha, L, l, inertia=100):
 
     torque = radius * np.sin(alpha + beta) * T @ directions
 
-    return torque / inertia
+    return (torque / inertia).astype(float)

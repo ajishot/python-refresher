@@ -107,7 +107,7 @@ class TestPhysics(unittest.TestCase):
                 physics.calculate_auv2_angular_acceleration(
                     np.array([5, 4, 3, 2]), np.pi / 4, np.sqrt(2), np.sqrt(2)
                 ),
-                np.array([0.04]),
+                0.04,
             )
         )
         self.assertFalse(
@@ -115,7 +115,7 @@ class TestPhysics(unittest.TestCase):
                 physics.calculate_auv2_angular_acceleration(
                     np.array([5, 4, 3, 2]), np.pi / 4, np.sqrt(2), np.sqrt(2)
                 ),
-                np.array([-0.04]),
+                -0.04,
             )
         )
         with self.assertRaises(TypeError):
