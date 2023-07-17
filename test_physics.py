@@ -81,6 +81,24 @@ class TestPhysics(unittest.TestCase):
         with self.assertRaises(ValueError):
             physics.calculate_auv_angular_acceleration(20, np.pi, 5, -3)
 
+    def test_calculate_auv2_acceleration(self):
+        self.assertTrue(
+            np.allclose(
+                physics.calculate_auv2_acceleration(np.array([-3, 5, 2, 3]), np.pi),
+                np.array([-0.03, 0]),
+            )
+        )
+        self.assertFalse(
+            np.allclose(
+                physics.calculate_auv2_acceleration(np.array([-3, 5, 2, 3]), np.pi),
+                np.array([-3, 0]),
+            )
+        )
+        with self.assertRaises(TypeError):
+            physics.calculate_auv2_acceleration(-3, 5)
+        with self.assertRaises(ValueError):
+            physics.calculate_auv2_acceleration(np.ndarray([3, 2]), 23, -5)
+
 
 if __name__ == "__main__":
     unittest.main()
