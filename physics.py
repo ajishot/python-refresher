@@ -177,3 +177,50 @@ def calculate_auv2_angular_acceleration(T, alpha, L, l, inertia=100):
     torque = radius * np.sin(alpha + beta) * T @ directions
 
     return (torque / inertia).astype(float)
+
+
+# Problem 10-1
+# origin velocity of 0 m/s
+# can move in all direction
+# can rotate in either direction
+# can move and rotate simultaneously
+def simulate_auv2_motion(
+    T, alpha, L, l, mass=100, inertia=100, dt=0.1, t_final=10, x0=0, y0=0, theta0=0
+):
+    t = np.arange(0, t_final, dt)
+    x = np.zeros_like(t)
+    y = np.zeros_like(t)
+    theta = np.zeros_like(t)
+    v = np.zeros_like(t)
+    omega = np.zeros_like(t)
+    a = np.zeros_like(t)
+    angular_a = np.zeros_like(t)
+
+    for i in range(1, len(t)):
+        a[i] = calculate_auv2_acceleration(T, alpha, mass)
+        angular_a[i] = calculate_auv2_angular_acceleration(T, alpha, L, l, inertia)
+
+        v[i] = v[i - 1] + a[i - 1] * dt
+        omega[i] = omega[i - 1] + angular_a[i - 1] * dt
+
+        x[i] = x[i - 1] + v[i - 1][0] * dt
+        y[i] = y[i - 1] + v[i - 1][1] * dt
+        theta[i] = theta[i - 1] + omega[i] * dt
+
+    return t, x, y, theta, v, omega, a
+
+
+import matplotlib.pyplot as plt
+
+
+# Problem 10-2
+def plot_auv2_motion(t, x, y, theta, v, omega, a):
+    plt.plot(t, x, label="x")
+    plt.plot(t, y, label="y")
+    plt.plot(t, theta, label="theta")
+    plt.plot(t, v, label="velocity")
+    plt.plot(t, omega, label="angular velocity")
+    plt.plot(t, a, label="acceleration")
+    plt.xlabel("Time (s)")
+    plt.legend()
+    plt.show()
