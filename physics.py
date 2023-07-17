@@ -212,7 +212,7 @@ def simulate_auv2_motion(
         theta[i] = theta[i - 1] + omega[i] * dt
 
     v = np.array(zip(v_x, v_y))
-    a = np.array(zip(a_x, a_y))
+    a = np.array(zip(a_x, a_y, angular_a))
 
     return t, x, y, theta, v, omega, a
 
@@ -220,16 +220,15 @@ def simulate_auv2_motion(
 import matplotlib.pyplot as plt
 
 
+
 # Problem 10-2
 def plot_auv2_motion(t, x, y, theta, v, omega, a):
     plt.plot(t, x, label="x")
     plt.plot(t, y, label="y")
     plt.plot(t, theta, label="theta")
-    plt.plot(t, v[:, 0], label="x-velocity")
-    plt.plot(t, v[:, 1], label="y-velocity")
+    plt.plot(t, v, label="velocity")
     plt.plot(t, omega, label="angular velocity")
-    plt.plot(t, a[:, 0], label="x-acceleration")
-    plt.plot(t, a[:,], label="y-acceleration")
+    plt.plot(t, a, label="acceleration")
     plt.xlabel("Time (s)")
     plt.legend()
     plt.show()
