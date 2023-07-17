@@ -104,9 +104,28 @@ class TestPhysics(unittest.TestCase):
     def test_calculate_auv2_angular_acceleration(self):
         self.assertTrue(
             np.allclose(
-                physics.calculate_auv2_angular_accelration(np.array([5, 4, 3, 2]))
+                physics.calculate_auv2_angular_acceleration(
+                    np.array([5, 4, 3, 2]), np.pi / 4, np.sqrt(2), np.sqrt(2)
+                ),
+                np.array([0.04]),
             )
         )
+        self.assertFalse(
+            np.allclose(
+                physics.calculate_auv2_angular_acceleration(
+                    np.array([5, 4, 3, 2]), np.pi / 4, np.sqrt(2), np.sqrt(2)
+                ),
+                np.array([-0.04]),
+            )
+        )
+        with self.assertRaises(TypeError):
+            physics.calculate_auv2_angular_acceleration(-3, 5, 2, 4)
+        with self.assertRaises(ValueError):
+            physics.calculate_auv2_angular_acceleration(np.array([23]), 5, 2, 4)
+        with self.assertRaises(ValueError):
+            physics.calculate_auv2_angular_acceleration(
+                np.array([5, 4, 3, 2]), 3, -2, 4
+            )
 
 
 if __name__ == "__main__":

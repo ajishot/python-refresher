@@ -159,7 +159,7 @@ def calculate_auv2_acceleration(T, alpha, mass=100):
 # L is the distance from the center of mass of the AUV to the thrusters in meters.
 # l is the distance from the center of mass of the AUV to the thrusters in meters.
 # inertia is the moment of inertia of the AUV in kg m^2. The default value is 100kg m^2
-def calculate_auv2_angular_accelration(T, alpha, L, l, inertia=100):
+def calculate_auv2_angular_acceleration(T, alpha, L, l, inertia=100):
     if not isinstance(T, np.ndarray):
         raise TypeError(
             "T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons."
