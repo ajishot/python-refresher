@@ -123,7 +123,7 @@ def calculate_auv_angular_acceleration(
 # T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons.
 # alpha is the angle of the thrusters in radians.
 # mass is the mass of the AUV in kilograms. The default value is 100kg.
-def calculate_auv2_acceleration(T, alpha, mass=100):
+def calculate_auv2_acceleration(T, alpha, theta, mass=100):
     if not isinstance(T, np.ndarray):
         raise TypeError(
             "T is an np.ndarray of the magnitudes of the forces applied by the thrusters in Newtons."
@@ -143,7 +143,7 @@ def calculate_auv2_acceleration(T, alpha, mass=100):
         @ T
     )
     rotation_matrix = np.array(
-        [[np.cos(alpha), np.sin(alpha)], [-np.sin(alpha), np.cos(alpha)]]
+        [[np.cos(theta), np.sin(theta)], [-np.sin(theta), np.cos(theta)]]
     )
     force_universal = rotation_matrix @ force_robot
 
