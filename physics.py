@@ -198,21 +198,25 @@ def simulate_auv2_motion(
     a_y = np.zeros_like(t)
     angular_a = np.zeros_like(t)
 
+    x[0] = x0
+    y[0] = y0
+    theta[0] = theta0
+
     for i in range(1, len(t)):
         a_x[i] = calculate_auv2_acceleration(T, alpha, mass)[0]
         a_y[i] = calculate_auv2_acceleration(T, alpha, mass)[1]
         angular_a[i] = calculate_auv2_angular_acceleration(T, alpha, L, l, inertia)
 
-        v_x[i] = v_x[i - 1] + a_x[i - 1] * dt
-        v_y[i] = v_y[i - 1] + a_y[i - 1] * dt
-        omega[i] = omega[i - 1] + angular_a[i - 1] * dt
+        v_x[i] = v_x[i - 1] + a_x[i] * dt
+        v_y[i] = v_y[i - 1] + a_y[i] * dt
+        omega[i] = omega[i - 1] + angular_a[i] * dt
 
-        x[i] = x[i - 1] + v_x[i - 1] * dt
-        y[i] = y[i - 1] + v_y[i - 1] * dt
+        x[i] = x[i - 1] + v_x[i] * dt
+        y[i] = y[i - 1] + v_y[i] * dt
         theta[i] = theta[i - 1] + omega[i] * dt
 
-    v = np.array(zip(v_x, v_y))
-    a = np.array(zip(a_x, a_y, angular_a))
+    v = np.vstack((v_x, v_y))
+    a = np.vstack((a_x, a_y, angular_a))
 
     return t, x, y, theta, v, omega, a
 
@@ -220,15 +224,17 @@ def simulate_auv2_motion(
 import matplotlib.pyplot as plt
 
 
-
 # Problem 10-2
 def plot_auv2_motion(t, x, y, theta, v, omega, a):
     plt.plot(t, x, label="x")
     plt.plot(t, y, label="y")
     plt.plot(t, theta, label="theta")
-    plt.plot(t, v, label="velocity")
+    plt.plot(t, v[0], label="x-velocity")
+    plt.plot(t, v[1], label="y-velocity")
     plt.plot(t, omega, label="angular velocity")
-    plt.plot(t, a, label="acceleration")
+    plt.plot(t, a[0], label="x-acceleration")
+    plt.plot(t, a[1], label="y-acceleration")
+    plt.plot(t, a[2], label="angular acceleration")
     plt.xlabel("Time (s)")
     plt.legend()
     plt.show()
