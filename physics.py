@@ -209,14 +209,14 @@ def simulate_auv2_motion(
 
         v_x[i] = v_x[i - 1] + a_x[i] * dt
         v_y[i] = v_y[i - 1] + a_y[i] * dt
-        omega[i] = omega[i - 1] + angular_a[i] * dt
+        omega[i] = omega[i - 1] + angular_a * dt
 
         x[i] = x[i - 1] + v_x[i] * dt
         y[i] = y[i - 1] + v_y[i] * dt
         theta[i] = theta[i - 1] + omega[i] * dt
 
     v = np.vstack((v_x, v_y))
-    a = np.vstack((a_x, a_y, angular_a))
+    a = np.vstack((a_x, a_y))
 
     return t, x, y, theta, v, omega, a
 
@@ -235,7 +235,6 @@ def plot_auv2_motion(t, x, y, theta, v, omega, a):
     plt.plot(t, omega, label="angular velocity")
     plt.plot(t, a[0], label="x-acceleration")
     plt.plot(t, a[1], label="y-acceleration")
-    plt.plot(t, a[2], label="angular acceleration")
     plt.xlabel("Time (s)")
     plt.legend()
     plt.show()
