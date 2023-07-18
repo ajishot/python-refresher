@@ -226,6 +226,7 @@ import matplotlib.pyplot as plt
 
 # Problem 10-2
 def plot_auv2_motion(t, x, y, theta, v, omega, a):
+    #     plt.plot(x, y)
     plt.plot(t, x, label="x")
     plt.plot(t, y, label="y")
     plt.plot(t, theta, label="theta")
@@ -238,3 +239,20 @@ def plot_auv2_motion(t, x, y, theta, v, omega, a):
     plt.xlabel("Time (s)")
     plt.legend()
     plt.show()
+
+
+def subplotter(t, x, y, theta, v, omega, a):
+    fig, (ax1, ax2, ax3) = plt.subplots(3)
+    ax1.plot(x, y)
+    ax2.plot(t, y)
+    ax3.plot(t, x)
+
+
+plot_auv2_motion(
+    *simulate_auv2_motion(np.array([100, 30, 60, 20]), np.pi / 4, 0.2, 0.2, 100, 100)
+)
+
+
+subplotter(
+    *simulate_auv2_motion(np.array([100, 30, 60, 20]), np.pi / 4, 0.2, 0.2, 100, 100)
+)
